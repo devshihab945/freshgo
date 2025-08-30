@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshgo/features/home/presentation/home_screen.dart';
+import 'package:freshgo/features/order_tracking/presentation/order_tracking_screen.dart';
 
 class NavItem {
   final String label;
@@ -46,7 +47,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       label: 'Orders',
       icon: const Icon(Icons.shopping_bag_outlined),
       selectedIcon: const Icon(Icons.shopping_bag),
-      screen: _placeholderScreen('Orders'),
+      screen: OrderTrackingScreen(),
     ),
     NavItem(
       label: 'Bookmark',
