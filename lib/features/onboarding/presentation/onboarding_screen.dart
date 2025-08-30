@@ -133,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: SizedBox(
                       height: 50, // fixed height
                       child: ElevatedButton(
-                        onPressed: () => context.go('/home'),
+                        onPressed: () => context.go('/nav'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           foregroundColor: Colors.white,
@@ -150,7 +150,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: SizedBox(
                       height: 50, // fixed height
                       child: ElevatedButton(
-                        onPressed: () => context.go('/home'),
+                        onPressed: () => context.go('/nav'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF22C55E),
                           foregroundColor: Colors.white,
