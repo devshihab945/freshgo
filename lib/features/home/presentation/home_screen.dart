@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freshgo/core/bottom_nav.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/section_header.dart';
@@ -21,14 +20,21 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            /// Top Bar
             SliverToBoxAdapter(
               child: _TopBar(onTrackPressed: () => context.go('/track')),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 12)),
+
+            /// Search Bar
             const SliverToBoxAdapter(child: _SearchBar()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
-            const SliverToBoxAdapter(child: PromoCard()),
+
+            /// Promo Slider
+            const SliverToBoxAdapter(child: _PromoSlider()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+            /// Categories
             SliverToBoxAdapter(
               child: SectionHeader(title: 'Top Categories', onSeeAll: () {}),
             ),
@@ -42,33 +48,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     CategoryChip(
                       label: 'Beverages',
                       imageUrl:
-                          'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=200&q=80',
+                      'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=200&q=80',
                     ),
                     CategoryChip(
                       label: 'Snack',
                       imageUrl:
-                          'https://images.unsplash.com/photo-1521986329282-0436c1f1e212?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                      'https://images.unsplash.com/photo-1521986329282-0436c1f1e212?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                     ),
                     CategoryChip(
                       label: 'Seafood',
                       imageUrl:
-                          'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=80',
+                      'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=80',
                     ),
                     CategoryChip(
                       label: 'Dessert',
                       imageUrl:
-                          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200&q=80',
+                      'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200&q=80',
                     ),
                     CategoryChip(
                       label: 'Fruits',
                       imageUrl:
-                          'https://plus.unsplash.com/premium_photo-1671379041175-782d15092945?q=80&w=720&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                      'https://plus.unsplash.com/premium_photo-1671379041175-782d15092945?q=80&w=720&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                     ),
                   ],
                 ),
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 8)),
+
+            /// Top Discount Section
             SliverToBoxAdapter(
               child: SectionHeader(title: 'Top Discount', onSeeAll: () {}),
             ),
@@ -85,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         distance: '1.0 km',
                         rating: 4.8,
                         imageUrl:
-                            'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80',
+                        'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80',
                       ),
                       SizedBox(width: 12),
                       RestaurantCard(
@@ -93,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         distance: '500 m',
                         rating: 4.8,
                         imageUrl:
-                            'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
+                        'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
                       ),
                     ],
                   ),
@@ -229,6 +237,89 @@ class _SearchBar extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Promo Slider
+class _PromoSlider extends StatefulWidget {
+  const _PromoSlider();
+
+  @override
+  State<_PromoSlider> createState() => _PromoSliderState();
+}
+
+class _PromoSliderState extends State<_PromoSlider> {
+  final PageController _controller = PageController();
+  int _index = 0;
+
+  final promos = const [
+    PromoCard(
+      imageUrl: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f",
+      title: "Free Delivery",
+      subtitle: "On all orders above \$20",
+    ),
+    PromoCard(
+      imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+      title: "50% Discount",
+      subtitle: "Selected restaurants only",
+    ),
+    PromoCard(
+      imageUrl: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8",
+      title: "Buy 1 Get 1",
+      subtitle: "Weekend special deals",
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 180,
+      child: Stack(
+        children: [
+          PageView.builder(
+            controller: _controller,
+            itemCount: promos.length,
+            onPageChanged: (i) => setState(() => _index = i),
+            itemBuilder: (_, i) => promos[i],
+          ),
+
+          /// indicator bottom right
+          Positioned(
+            bottom: 16,
+            left: MediaQuery.of(context).size.width * 0.40,
+            right: MediaQuery.of(context).size.width * 0.40,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 6,
+                horizontal: 12,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30), // pill shape
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  promos.length,
+                      (i) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    width: _index == i ? 16 : 6,
+                    height: 6,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      color: _index == i
+                          ? const Color(0xFF22C55E) // active dot green
+                          : Colors.grey, // inactive dot grey
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
